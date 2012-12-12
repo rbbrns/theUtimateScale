@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="app_name">The Ultimate Scale</string>
+    <string name="title_unit_detail">Unit Detail</string>
+    <string name="title_unit_list">Units</string>
+
+</resources>
