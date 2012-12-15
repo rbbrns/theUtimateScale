@@ -57,17 +57,17 @@
         android:layout_weight="2"
         android:gravity="center"
         android:text="00.00"
-        android:textSize="150dp" />
+        android:textSize="150sp" />
 
     
     <TextView
         android:id="@+id/text_unit"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_gravity="right"
+        android:layout_gravity="right|center"
         android:layout_weight="1"
-        android:gravity="right"
-        android:text="grams"
-        android:textSize="75dp" />
+        android:gravity="right|center"
+        android:text="tablespoons of water"
+        android:textSize="60sp" />
 
 </LinearLayout>

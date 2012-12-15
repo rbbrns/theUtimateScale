@@ -71,7 +71,6 @@ public class ScaleActivity extends Activity implements OnInitListener {
 	private TextView mUnitsView;
 	private AdView adView = null;
 	private LinearLayout adLayout;
-	private boolean showAds = true;
 	private TextView mWeightTextView;
 	private TextView disableAdsText;
 
@@ -175,6 +174,7 @@ public class ScaleActivity extends Activity implements OnInitListener {
 								disableAdsText.setVisibility(View.INVISIBLE);
 								mSettings.edit().putBoolean("ads", false).commit();
 								adView = null;
+								startActivity(new Intent( Intent.ACTION_VIEW , Uri.parse( "http://blog.theultimatelabs.com/p/donate.html" ) ));
 							}
 						}).show();
 			}
