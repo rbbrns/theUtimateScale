@@ -327,7 +327,7 @@ public class ScaleActivity extends Activity implements OnInitListener {
 					return null;
 				}
 
-				double weightOunces = (weightLSB + weightMSB * 255) / 10;
+				double weightOunces = (weightLSB + weightMSB * 255.0) / 10;
 				//Log.v(TAG, "ounces:" + weightOunces);
 				mWeightGrams = weightOunces * OUNCES_IN_GRAMS;
 				//Log.v(TAG, "grams:" + mWeightGrams);
