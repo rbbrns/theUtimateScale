@@ -151,11 +151,6 @@ public class ScaleActivity extends Activity implements OnInitListener {
 		mWeightsJson = loadJsonResource(R.raw.weights);
 
 
-		Intent intent = getIntent();
-		mDevice = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
-		
-		
-		findScale();
 		
 	}
 
@@ -391,9 +386,9 @@ public class ScaleActivity extends Activity implements OnInitListener {
 			mWeightTextView.invalidate();
 
 			if (weight == 0.0) {
-				mTts.speak("zero'd", TextToSpeech.QUEUE_FLUSH, null);
+			    mTts.speak("zero'd", TextToSpeech.QUEUE_FLUSH, null, null);
 			} else {
-				mTts.speak(weightText + mUnitsText, TextToSpeech.QUEUE_FLUSH, null);
+				mTts.speak(weightText + mUnitsText, TextToSpeech.QUEUE_FLUSH, null, null);
 			}
 		}
 
@@ -464,7 +459,8 @@ public class ScaleActivity extends Activity implements OnInitListener {
 				mUnitsText = String.format("%s", weightName);
 			} else {
 				Toast.makeText(this, "Does not compute", Toast.LENGTH_LONG).show();
-				mTts.speak("Does not compute", TextToSpeech.QUEUE_FLUSH, null);
+				mTts.speak("Does not compute", TextToSpeech.QUEUE_FLUSH, null, null
+                );
 			}
 
 			Editor settingsEditor = mSettings.edit();
@@ -485,6 +481,12 @@ public class ScaleActivity extends Activity implements OnInitListener {
 		if (status == TextToSpeech.SUCCESS) {
 			mTts.setLanguage(Locale.US);
 			mTts.setPitch(.9f);
+
+            Intent intent = getIntent();
+            mDevice = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+
+
+            findScale();
 		}
 		else {
 			Log.e(TAG,"TTS Initilization Failed!");
