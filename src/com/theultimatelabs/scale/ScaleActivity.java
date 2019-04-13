@@ -50,9 +50,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.ads.AdRequest;
-import com.google.ads.AdSize;
-import com.google.ads.AdView;
 
 public class ScaleActivity extends Activity implements OnInitListener {
 
@@ -69,7 +66,6 @@ public class ScaleActivity extends Activity implements OnInitListener {
 	private double mUnitsRatio = 1.0;
 	private String mUnitsText = "grams";
 	private TextView mUnitsView;
-	private AdView adView = null;
 	private LinearLayout adLayout;
 	private TextView mWeightTextView;
 	private TextView disableAdsText;
@@ -105,9 +101,6 @@ public class ScaleActivity extends Activity implements OnInitListener {
 				intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say Units");
 				startActivityForResult(intent, 0);
 
-				if (adView != null) {
-					adView.loadAd(new AdRequest());
-				}
 
 			}
 		});
@@ -127,56 +120,13 @@ public class ScaleActivity extends Activity implements OnInitListener {
 			public void onClick(View v) {
 				Toast.makeText(getApplicationContext(), "Zero'd", Toast.LENGTH_LONG).show();
 				mZeroGrams = mWeightGrams;
-				if (adView != null) {
-					adView.loadAd(new AdRequest());
-				}
 			}
 		});
 		mWeightTextView.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
 				mZeroGrams = 0;
 				Toast.makeText(getApplicationContext(), "Reset", Toast.LENGTH_LONG).show();
-				if (adView != null) {
-					adView.loadAd(new AdRequest());
-				}
 				return true;
-			}
-		});
-
-		disableAdsText = (TextView) findViewById((R.id.text_disableAds));
-		disableAdsText.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				new AlertDialog.Builder(ScaleActivity.this)
-						.setTitle("Keep Software Free and Open Source")
-						.setMessage(
-								"Ads help support further development, but they are OPTIONAL."
-										+ " If you choose to disable ads, please consider donating. All dontations"
-										+ " go towards purchasing hardware for open source development. "
-										+ "Disabling ads or donating will not change the features availble in this app."
-										+ " Thank you. rob@theultimatelabs.com")
-						.setPositiveButton("Disable Ads", new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which) {
-								adLayout.removeAllViews();
-								adView.removeAllViews();
-								disableAdsText.setVisibility(View.INVISIBLE);
-								mSettings.edit().putBoolean("ads", false).commit();
-								adView = null;
-							}
-						}).setCancelable(true)
-						.setNegativeButton("Keep Ads", new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which) {
-
-							}
-						}).setNeutralButton("Disable Ads + Donate", new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which) {
-								adLayout.removeAllViews();
-								adView.removeAllViews();
-								disableAdsText.setVisibility(View.INVISIBLE);
-								mSettings.edit().putBoolean("ads", false).commit();
-								adView = null;
-								startActivity(new Intent( Intent.ACTION_VIEW , Uri.parse( "http://blog.theultimatelabs.com/p/donate.html" ) ));
-							}
-						}).show();
 			}
 		});
 		
@@ -201,22 +151,6 @@ public class ScaleActivity extends Activity implements OnInitListener {
 		mWeightsJson = loadJsonResource(R.raw.weights);
 
 
-		// Initiate a generic request to load it with an ad
-		if (mSettings.getBoolean("ads", true)) {
-			// Create the adViewj
-			adView = new AdView(this, AdSize.SMART_BANNER, "a15089dfb39c5a8");
-
-			// Log.w(TAG, new Integer(R.id.layout_ads).toString());
-			adLayout = (LinearLayout) findViewById(R.id.layout_ads);
-
-			// Add the adView to it
-			adLayout.addView(adView, 0);
-			disableAdsText.setVisibility(View.VISIBLE);
-		} else {
-			disableAdsText.setVisibility(View.INVISIBLE);
-			adView = null;
-		}
-
 		Intent intent = getIntent();
 		mDevice = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
 		
@@ -228,9 +162,6 @@ public class ScaleActivity extends Activity implements OnInitListener {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if (adView != null) {
-			adView.destroy();
-		}
 		if (mTts != null) {
 			mTts.stop();
 			mTts.shutdown();
@@ -263,9 +194,6 @@ public class ScaleActivity extends Activity implements OnInitListener {
 	@Override
 	public void onStart() {
 		super.onStart();
-		if (adView != null) {
-			adView.loadAd(new AdRequest());
-		}
 		Log.v(TAG, "onStart");
 
 	}
