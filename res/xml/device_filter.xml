@@ -11,4 +11,5 @@
 -->
 <resources>
     <usb-device vendor-id="5190" product-id="27251" class="0" subclass="0" protocol="0" />
+    <usb-device vendor-id="5190" product-id="27254" class="0" subclass="0" protocol="0" />
 </resources>
